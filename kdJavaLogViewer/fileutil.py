@@ -1,38 +1,33 @@
 # coding: utf-8
-import os
+from os import makedirs
+from os.path import dirname, realpath, join, exists
+from shutil import copyfile
 
-cur_dir = os.path.dirname(os.path.realpath(__file__))
+cur_dir = dirname(realpath(__file__))
+
+
 def get_file_realpath(file):
-    return os.path.join(cur_dir,file)
-def check_and_create(absolute_file_path):
-    slash_last_index = absolute_file_path.rindex("/")
-    path = absolute_file_path[:slash_last_index]
-    # 检查目录
-    if os.path.exists(path) is not True:
-        os.makedirs(path)
-    elif os.path.isdir(path) is not True:
-        print(path, "is no a dir,delete and create a dir")
-        os.remove(path)
-        os.makedirs(path)
-    # 检查文件
-    if os.path.exists(absolute_file_path) is not True:
-        with open(absolute_file_path, "w+") as f:
-            pass
-    elif os.path.isfile(absolute_file_path) is not True:
-        os.removedirs(absolute_file_path)
-        with open(absolute_file_path, "w+") as f:
+    return join(cur_dir, file)
+
+
+# 检查并创建文件
+def check_and_create_file(absolute_file_path):
+    if not  exists(absolute_file_path) :
+        tmp_dir = dirname(absolute_file_path)
+        if not exists(tmp_dir):
+            makedirs(tmp_dir)
+        with open(absolute_file_path, "w+"):
             pass
 
+
+# 检查并创建目录
 def check_and_create_dir(absolute_dir_path):
-    if os.path.exists(absolute_dir_path) is not True:
-        os.makedirs(absolute_dir_path)
-    elif os.path.isdir(absolute_dir_path) is not True:
-        print(absolute_dir_path, "is no a dir,delete and create a dir")
-        os.remove(absolute_dir_path)
-        os.makedirs(absolute_dir_path)
+    if not  exists(absolute_dir_path) :
+        makedirs(absolute_dir_path)
 
-if __name__ == "__main__":
-    a = "./u/y/p.jpg"
-    print(dir(os.path))
-    print(dir(os))
-    check_and_create(a)
+
+# 复制sqlite配置文件到用户个人目录
+def check_and_create_sqlite_file(config_path):
+    if not exists(config_path) :
+        check_and_create_dir(dirname(config_path))
+    copyfile(get_file_realpath("../data/data.db"), config_path)
