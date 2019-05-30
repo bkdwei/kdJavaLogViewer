@@ -48,6 +48,12 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
         print("g")
 
     @pyqtSlot()
+    def on_pb_query_clicked(self):
+        thread_id = self.le_thread.text().strip()
+        if thread_id != "" :
+            self.log.query(thread_id)
+        
+    @pyqtSlot()
     def on_pb_import_clicked(self):
         selected_file, _ = QFileDialog.getOpenFileName(self, '选择命令路径', self.get_last_dir(), '*.log', '')
         if selected_file:

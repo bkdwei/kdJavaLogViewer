@@ -43,8 +43,8 @@ class log():
     def delete_cmd(self, cmdId):
         self.run_sql("delete from cmd where id = '{}'".format(cmdId))
 
-    def get_all(self, model):
-        return self.run_sql("select id,model,value,remark,reply_type from cmd where model ='{}' order by remark".format(model))
+    def query(self, thread_id):
+        return self.run_sql("select time,thread_id,level,clazz,msg from log where thread_id ='{}' order by time".format(thread_id))
 
     def modify_cmd(self):
         reply_type = 1
