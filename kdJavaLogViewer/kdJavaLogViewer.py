@@ -83,39 +83,45 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
             self.log.delete_all()
             self.statusbar.showMessage("")
             begin_time = time.time()
-#             print(now)
             i = 1 
-            with open(selected_file, "r", encoding=self.le_encoding.text().strip()) as f:
-                log_time = None
-                thread_id = None
-                level = None
-                clazz = None
-                short_clazz = None
-                msg = None
-                for l in f: 
+            encoding = self.le_encoding.text().strip()
+            f = None
+            if encoding == "" :
+                f = open(selected_file, "r")
+            else :
+                f = open(selected_file, "r", encoding=encoding)
+                
+#             with open(selected_file, "r", encoding=self.le_encoding.text().strip()) as f:
+            log_time = None
+            thread_id = None
+            level = None
+            clazz = None
+            short_clazz = None
+            msg = None
+            l = f.readline()
+            while l: 
 #                     print(i, fLine)
-                    if(l[0] != '2'):
-                        msg += l
-                        i += 1 
-                        continue
-                    else :
-#                         print(log_time, thread_id, level, clazz, msg)
-                        if log_time:
-                            self.log.add_log(log_time, thread_id, level, clazz, msg, short_clazz)
-                        log_time = l[11:23]
-                        thread_id = l[24:28]
-                        level = l[29:35]
-                        ll = str(l[35:]).split(']')
-                        clazz = ll[0][2:]
-                        short_clazz = clazz.split(".")[-1]
-                        msg = ll[1][2:]
-#                         print(l[0:23], l[24:29], l[29:34], ll[0][1:], ll[1][2:])
-#                     print(ll[0], ll[1])
+                if(l[0] != '2'):
+                    msg += l
                     i += 1 
-                if log_time:
-                    self.log.add_log(log_time, thread_id, level, clazz, msg, short_clazz)
-                self.log.flush_insert()
-#                 print(log_time, thread_id, level, clazz, msg)
+                    l = f.readline()
+                    continue
+                else :
+#                         print(log_time, thread_id, level, clazz, msg)
+                    if log_time:
+                        self.log.add_log(log_time, thread_id, level, clazz, msg, short_clazz)
+                    log_time = l[11:23]
+                    thread_id = l[24:28]
+                    level = l[29:35]
+                    ll = str(l[35:]).split(']')
+                    clazz = ll[0][2:]
+                    short_clazz = clazz.split(".")[-1]
+                    msg = ll[1][2:]
+                    l = f.readline()
+                i += 1 
+            if log_time:
+                self.log.add_log(log_time, thread_id, level, clazz, msg, short_clazz)
+            self.log.flush_insert()
             end_time = time.time()
             self.tb_result.setText("导入日志成功，耗时" + str(end_time - begin_time) + "秒，行数:" + str(i))
 
