@@ -30,4 +30,4 @@ def check_and_create_dir(absolute_dir_path):
 def check_and_create_sqlite_file(config_path):
     if not exists(config_path) :
         check_and_create_dir(dirname(config_path))
-    copyfile(get_file_realpath("../data/data.db"), config_path)
+        copyfile(get_file_realpath("../data/data.db"), config_path)

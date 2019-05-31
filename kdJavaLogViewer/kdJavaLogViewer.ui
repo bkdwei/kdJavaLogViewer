@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Java日志查看器</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -22,7 +22,24 @@
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="2" column="2">
-        <widget class="QTimeEdit" name="te_start"/>
+        <widget class="QTimeEdit" name="te_start">
+         <property name="currentSection">
+          <enum>QDateTimeEdit::HourSection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>HH:mm:ss</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="time">
+          <time>
+           <hour>0</hour>
+           <minute>0</minute>
+           <second>0</second>
+          </time>
+         </property>
+        </widget>
        </item>
        <item row="2" column="4">
         <widget class="QLabel" name="label_2">
@@ -32,7 +49,14 @@
         </widget>
        </item>
        <item row="2" column="5">
-        <widget class="QTimeEdit" name="te_end"/>
+        <widget class="QTimeEdit" name="te_end">
+         <property name="displayFormat">
+          <string>HH:mm:ss</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="3" column="1">
         <widget class="QLabel" name="label_5">
@@ -56,7 +80,11 @@
         </widget>
        </item>
        <item row="3" column="5" colspan="2">
-        <widget class="QLineEdit" name="le_thread"/>
+        <widget class="QLineEdit" name="le_thread">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
        <item row="4" column="1">
         <widget class="QLabel" name="label_6">
@@ -96,12 +124,12 @@
        <item row="5" column="1">
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>类</string>
+          <string>方法</string>
          </property>
         </widget>
        </item>
        <item row="5" column="2" colspan="2">
-        <widget class="QLineEdit" name="le_class"/>
+        <widget class="QLineEdit" name="le_method"/>
        </item>
        <item row="5" column="4">
         <widget class="QLabel" name="label_8">
@@ -114,7 +142,7 @@
         <widget class="QLineEdit" name="le_keyword"/>
        </item>
        <item row="0" column="1" colspan="2">
-        <widget class="QPushButton" name="pb_import">
+        <widget class="QPushButton" name="pb_open">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -122,7 +150,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>导入日志文件</string>
+          <string>打开日志文件</string>
          </property>
         </widget>
        </item>
@@ -137,6 +165,26 @@
         <widget class="QPushButton" name="pb_query">
          <property name="text">
           <string>查询</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>编码格式</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QLineEdit" name="le_encoding">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>UTF-8</string>
          </property>
         </widget>
        </item>
