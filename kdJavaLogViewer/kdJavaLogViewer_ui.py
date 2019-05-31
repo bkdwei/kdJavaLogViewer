@@ -140,6 +140,6 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "开始时间"))
         self.pb_query.setText(_translate("MainWindow", "查询"))
         self.label_4.setText(_translate("MainWindow", "编码格式"))
-        self.le_encoding.setText(_translate("MainWindow", "UTF-8"))
+        self.le_encoding.setText(_translate("MainWindow", "GB2312"))
         self.groupBox_2.setTitle(_translate("MainWindow", "结果"))
 

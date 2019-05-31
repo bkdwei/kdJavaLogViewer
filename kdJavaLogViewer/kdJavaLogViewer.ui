@@ -184,7 +184,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>UTF-8</string>
+          <string>GB2312</string>
          </property>
         </widget>
        </item>
