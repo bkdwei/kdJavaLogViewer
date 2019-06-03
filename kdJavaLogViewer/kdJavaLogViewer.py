@@ -10,14 +10,14 @@ Created on 2019年5月9日
 '''
 
 from os import environ
-from os.path import expanduser, join, exists
-import sys, time, datetime
+from os.path import expanduser, join
+import sys, time
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QInputDialog
 
 from .exception_handler import global_exception_hander
-from .fileutil import check_and_create_dir, get_file_realpath, check_and_create_sqlite_file
+from .fileutil import  check_and_create_sqlite_file
 from .kdJavaLogViewer_ui import Ui_MainWindow
 from .log import log
 
@@ -48,6 +48,7 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_pb_query_clicked(self):
+        self.statusbar.showMessage("")
         thread_id = self.le_prefex.text().strip() + self.le_thread.text().strip()
         if thread_id == "T":
             thread_id = None
@@ -78,6 +79,7 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_pb_open_clicked(self):
+        hour , ok = QInputDialog.getInt(self, "导入指定小时之后的日志", "点击取消将导入全部日志。", 0, 0, 24, 1)
         selected_file, _ = QFileDialog.getOpenFileName(self, '选择日志文件路径', self.get_last_dir(), '*.log', '')
         if selected_file:
             self.log.delete_all()
@@ -100,10 +102,15 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
             msg = None
             l = f.readline()
             while l: 
-#                     print(i, fLine)
+#                     不以时间开头的行，默认不是一行
                 if(l[0] != '2'):
                     msg += l
                     i += 1 
+                    l = f.readline()
+                    continue
+                # 跳过指定时间之前的日志
+                elif int(l[11:13]) < hour and ok:
+#                     print(int(l[11:13]))
                     l = f.readline()
                     continue
                 else :
@@ -124,6 +131,7 @@ class kdJavaLogViewer(QMainWindow, Ui_MainWindow):
             self.log.flush_insert()
             end_time = time.time()
             self.tb_result.setText("导入日志成功，耗时" + str(end_time - begin_time) + "秒，行数:" + str(i))
+            f.close()
 
 
 def main():
